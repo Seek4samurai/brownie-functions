@@ -1,10 +1,10 @@
-from brownie import accounts, config, SimpleStorage
+from brownie import accounts, config, network, SimpleStorage
 import os, time
 
 
 def deploySimpleStorage():
     # four methods to use sensitive variables using these techniques
-    account = accounts[0]
+    account = get_account()
     # account = accounts.load("myAccount")
     # account = accounts.add(os.getenv("PRIVATE_KEY"))
     # account = accounts.add(config["wallets"]["from_key"])
@@ -25,6 +25,13 @@ def deploySimpleStorage():
     # waiting for all transactions to finish
     # time.sleep(1)
     transaction.wait(1)
+
+
+def get_account():
+    if network.show_active() == "development":
+        return accounts[0]
+    else:
+        return accounts.add(config["wallets"]["from_key"])
 
 
 def main():
