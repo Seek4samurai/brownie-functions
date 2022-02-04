@@ -1,24 +1,25 @@
 from brownie import FundMe, MockV3Aggregator, network, config
-from scripts.helpingScript import LOCAL_BLOCKCHAIN_ENVIRONMENT, get_account, deployMocks
+from scripts.helpingScript import (get_account,deploy_mocks,LOCAL_BLOCKCHAIN_ENVIRONMENTS)
 
 
-def deployFundMe():
+def deploy_fund_me():
     account = get_account()
-    if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENT:
-        priceFeedAddress = config["networks"][network.show_active()][
+    if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENTS:
+        price_feed_address = config["networks"][network.show_active()][
             "eth_usd_price_feed"
         ]
     else:
-        deployMocks()
-        priceFeedAddress = MockV3Aggregator[-1].address
+        deploy_mocks()
+        price_feed_address = MockV3Aggregator[-1].address
 
-    fundMe = FundMe.deploy(
-        priceFeedAddress,
+    fund_me = FundMe.deploy(
+        price_feed_address,
         {"from": account},
         publish_source=config["networks"][network.show_active()].get("verify"),
     )
-    print(f"Contract deployed to {fundMe.address}")
+    print(f"Contract deployed to {fund_me.address}")
+    return fund_me
 
 
 def main():
-    deployFundMe()
+    deploy_fund_me()
