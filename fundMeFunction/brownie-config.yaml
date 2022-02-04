@@ -3,7 +3,8 @@ dependencies:
   - smartcontractkit/chainlink-brownie-contracts@1.1.1
 compiler:
   solc:
-    remappings: "@chainlink=smartcontractkit/chainlink-brownie-contracts@1.1.1"
+    remappings:
+      - "@chainlink=smartcontractkit/chainlink-brownie-contracts@1.1.1"
 dotenv: .env
 networks:
   default: development
