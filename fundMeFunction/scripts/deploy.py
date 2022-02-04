@@ -1,10 +1,10 @@
 from brownie import FundMe, MockV3Aggregator, network, config
-from scripts.helpingScript import get_account, deployMocks
+from scripts.helpingScript import LOCAL_BLOCKCHAIN_ENVIRONMENT, get_account, deployMocks
 
 
 def deployFundMe():
     account = get_account()
-    if network.show_active() != "development":
+    if network.show_active() not in LOCAL_BLOCKCHAIN_ENVIRONMENT:
         priceFeedAddress = config["networks"][network.show_active()][
             "eth_usd_price_feed"
         ]
